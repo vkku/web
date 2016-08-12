@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<head>
+
+	<!-- for favicon -->
+	<link rel="icon" href="‪D:\Misc\icons\R_Programming.ico" type="image/gif" sizes="32x32">
+	<title>Digital Watch</title>
+	<style>
+		#watchFormat
+		{
+			text-align: center;
+			background-color: orange;
+		}
+		body
+		{
+			background-color: #F0E68C;
+		}
+		#new
+		{
+			border-color: #FFFFFF;
+			border-radius: 5px;
+		}
+	</style>
+	<script type="text/javascript">
+		function watch()
+		{
+			var hour,min,sec;
+			time = new Date();
+			hour = time.getHours();
+			min = time.getMinutes();
+			sec = time.getSeconds();
+			if(hour < 10)
+			{
+				hour = "0" + hour;
+			}
+			if(min < 10)
+			{
+				min = "0" + min;
+			}
+			if(sec < 10)
+			{
+				sec = "0" + sec;
+			}
+			document.getElementById("hour").innerHTML = hour;
+			document.getElementById("min").innerHTML = min;
+			document.getElementById("sec").innerHTML = sec;
+			/*
+			padded(hour);
+			padded(min);
+			padded(sec);
+			*/
+			
+			
+			setTimeout(watch,1000);
+		}
+		/*function padded(var time = document.getElementById("time"))
+		{
+			if( (time < 10) )
+			{
+				time += 0;
+			}
+		}*/
+
+		
+	</script>
+</head>
+<body onload = "watch()">
+	<div id="watchFormat">
+		<h1>Digital Watch</h1>
+		<h2>
+			<div id = "new">
+				<strong id = "hour"> </strong> :
+				<strong id = "min"> </strong> :
+				<strong id = "sec"> </strong>
+			</div>
+		</h2>
+	</div>
+</body>
+</html>

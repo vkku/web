@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<head>
+	<script type="text/javascript">
+	var ms = 0,s = 0,m = 0;
+	var changeText = 0;
+		function stopwatch()
+		{
+			/*
+			if(changeText == 0)
+			{
+				changeText = 1;
+				document.getElementById("change").value = "Stop StopWatch";
+			}
+			*/
+			ms += 1;
+			if(ms >= 100)
+			{
+				ms = 0;
+				s += 1;
+			}
+			else if(s >= 60)
+			{
+				s = 0;
+				m += 1;
+			}
+			else if(m >= 60)
+			{
+				m = 0;
+				s = 0;
+				ms = 0;
+			}
+			if(ms >= 10)
+				document.getElementById("ms").innerHTML = ms;
+			else if(ms < 10)
+				document.getElementById("ms").innerHTML = "0" + ms;
+			if(s >= 10)
+				document.getElementById("s").innerHTML = s;
+			else if(s < 10)
+				document.getElementById("s").innerHTML = "0" + s;
+			if(m >= 10)
+				document.getElementById("m").innerHTML = m;
+			else if(m < 10)
+				document.getElementById("m").innerHTML = "0" + m;
+			setTimeout(stopwatch,10);
+		}
+		function stop()
+		{
+			alert("Watch Reads -> " +	document.getElementById("m").innerHTML	+	" : "	+	document.getElementById("s").innerHTML	+	" : " +	document.getElementById("ms").innerHTML);
+		}
+	</script>
+	<style type="text/css">
+		body
+		{
+			text-align: center;
+			background-color:  #F0E68C;
+		}
+	</style>
+</head>
+<body>
+	<div id = "pl">
+		<strong id="m"> 00 </strong>:
+		<strong id="s"> 00 </strong>:
+		<strong id="ms"> 00 </strong>
+	</div>
+	<input type="button" onclick = "stopwatch()" value = "Start StopWatch" id = "change">
+	<input type="button" onclick = "stop()" value = "Stop StopWatch" id = "change">
+</body>
+</html>
