@@ -1,0 +1,163 @@
+﻿<!DOCTYPE html>
+	<head>
+		<title>Simple Calculator</title>
+
+		<style type="text/css">
+		form
+		{
+    		margin: auto;
+    		width: 20%;
+    		border:3px solid #8AC007;
+    		padding: 10px;
+		}
+		#display
+		{
+			width: 100%;
+		}
+
+		#numpad
+		{
+			text-align: center;
+		}
+
+		#set
+		{
+			padding: 20px;
+			margin: 5px;
+
+		}
+
+		#setOut
+		{
+			width: 100%;
+			margin: 5px;
+		}
+
+
+		</style>
+
+		<script type="text/javascript">
+		var first = 0;
+		mul = false;
+		add = false;
+		sub = false;
+		div = false;
+		
+		function displayed (str) {
+			if(first == 0)
+				document.getElementById("display").value = str;
+			else
+				document.getElementById("display").value += str;
+
+			first++;
+			if(str == '\+')
+			{
+				add = true;
+				sub = false;
+				mul = false;
+				div = false;
+							
+			}
+				
+			else if(str == '\-')
+			{
+				sub = true;
+				add = false;
+				mul = false;
+				div = false;
+			}
+				
+			else if(str == '\*')
+			{
+				mul = true;
+				add = false;
+				sub = false;
+				div = false;
+				
+			}
+			else if(str == '\/')
+			{
+				mul = true;
+				add = false;
+				sub = false;
+				div = true;
+				
+			}
+				
+		}
+		function ac (argument) {
+			document.getElementById("display").value = "0";
+			first = 0;
+			add = false;
+			sub = false;
+			mul = false;
+			div = false;
+			
+		}
+
+		function result (argument) {
+			var result;
+			var sum = 0;
+			if (add == true)
+			{
+				result = (document.getElementById("display").value).split("+");
+				for (var i = result.length - 1; i >= 0; i--)
+					sum += parseFloat(result[i]);
+			}
+				
+			else if (sub == true)
+			{
+				result = (document.getElementById("display").value).split("-");
+				sum = result[0];
+				for (var i = 1; i <= result.length - 1; i++)
+					sum -= parseFloat(result[i]);
+			}
+			
+			else if(mul == true)
+			{
+				result = (document.getElementById("display").value).split("*");
+				sum = parseFloat(result[0]) * parseFloat(result[1]);
+			}
+			else if(div == true)
+			{
+				result = (document.getElementById("display").value).split("/");
+				sum = parseInt(result[0]) / parseInt(result[1]);
+				
+			}
+			result = (document.getElementById("display").value).split("/");
+			console.log(parseInt(result[0]) / parseInt(result[1]));
+			document.getElementById("display").value = sum;	
+		}
+
+		</script>
+	</head>
+	<body>
+		<form>
+			<b>Casio fx 02-ms</b>
+			<input type = "text" value = "0" id = "display">
+			<br>
+		
+			<input type = "button" value = "AC" onclick = "ac()" id = "setOut">
+		<div id="numpad">
+			<input type = "button" value = "1" onclick = "displayed(1)" id = "set">
+			<input type = "button" value = "2" onclick = "displayed(2)" id = "set">
+			<input type = "button" value = "3" onclick = "displayed(3)" id = "set">
+			<input type = "button" value = "4" onclick = "displayed(4)" id = "set">
+			<input type = "button" value = "5" onclick = "displayed(5)" id = "set">
+			<input type = "button" value = "6" onclick = "displayed(6)" id = "set">
+			<input type = "button" value = "7" onclick = "displayed(7)" id = "set">
+			<input type = "button" value = "8" onclick = "displayed(8)" id = "set">
+			<input type = "button" value = "9" onclick = "displayed(9)" id = "set">
+			
+			<input type = "button" value = "0" onclick = "displayed(0)" id = "set">
+			<input type = "button" value = "+" onclick = "displayed('\+')" id = "set">
+			<input type = "button" value = "-" onclick = "displayed('\-')" id = "set">
+			<input type = "button" value = "*" onclick = "displayed('\*')" id = "set">
+			<input type = "button" value = "/" onclick = "displayed('\/')" id = "set">
+			<input type = "button" value = "." onclick = "displayed('\.')" id = "set">
+			<input type = "button" value = "=" onclick = "result()" id = "set">
+			<br>
+		</div>
+		</form>
+	</body>
+<html>
