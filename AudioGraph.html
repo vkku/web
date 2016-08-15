@@ -1,0 +1,117 @@
+<!DOCTYPE HTML>
+ <!-- 
+ 			 _   ___          __     __ __
+			| | / (_)  _____ / /__  / //_/_ ____ _  ___  _____
+			| |/ / / |/ / -_)  '_/ / ,< / // /  ' \/ _ `/ __/
+			|___/_/|___/\__/_/\_\ /_/|_|\_,_/_/_/_/\_,_/_/
+ -->
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Page Title</title><!--
+ <link rel="stylesheet" href="style.css">
+	<script src="script.js">
+	</script>
+	-->
+	<script type="text/javascript">
+
+		var bufferLength,dataArray;
+		var width,height;
+		var analyser;
+		window.onload=function()
+		{
+			//Initialising key variables
+			var canvas = document.querySelector('#wave');
+			height = canvas.height;
+			width = canvas.width;
+			ctx = canvas.getContext('2d');
+			/*Experimenting Start
+			ctx.canvas.width  = window.innerWidth;
+  			ctx.canvas.height = window.innerHeight;
+  			width = window.innerWidth;
+  			height = window.innerHeight;
+  			Experiment End */
+			//Make Graph
+			buildGraph();
+			//Make Animation
+			requestAnimationFrame(visualize);
+		}
+
+		function buildGraph()
+		{
+			//Audio Context
+			audioCtx = window.AudioContext || window.webkitAudioContext;
+			var audioContext = new audioCtx();
+			var media = document.querySelector('#player');
+			var sourceNode = audioContext.createMediaElementSource(media);
+			analyser = audioContext.createAnalyser();
+
+			//Graph attribues
+			analyser.fftSize = 1024;	//FastFourierTransform size
+			// its size is always the fftSize / 2
+			bufferLength = analyser.frequencyBinCount;
+			//alert(bufferLength);  //--> half of fftSize confirmed
+			dataArray = new Uint8Array(bufferLength);
+			
+			//Connecting Nodes
+			sourceNode.connect(analyser);
+			analyser.connect(audioContext.destination);
+		}
+
+		function visualize()
+		{
+			//Canvas customisation
+			    ctx.strokeStyle = '#ff0000';
+			    ctx.lineCap = "round";
+			    ctx.lineWidth=2;
+			    ctx.lineJoin="bevel";
+			    //Black is feeling well
+			    //ctx.fillStyle = 'blue';
+			//Clear canvas
+			ctx.fillRect(0, 0, width, height);
+			ctx.beginPath();
+			//Get dataArray filled
+			analyser.getByteTimeDomainData(dataArray);
+			//Determining sections
+			var slice = width / bufferLength;
+			//Determining coordinates
+			var x = 0;
+			var y = 0;
+			//Loop for graph creation
+			for(i = 0 ; i < bufferLength ; i++)
+			{
+				var bit = dataArray[i];
+				//bit lies in range 0-255
+				bit = bit / 255;
+				//Normalise y coordinate to canvas
+				y = bit * height;
+				if(i === 0)
+					ctx.moveTo(x, y);
+				else
+					ctx.lineTo(x, y);
+
+				x += slice;
+			}
+			ctx.stroke();
+			//Make graph at speeds 60fps
+			requestAnimationFrame(visualize);
+		}
+	</script>
+		<style>
+			canvas{
+					border:1px solid;
+				   }
+		</style>
+</head>
+<body>
+	<audio id="player" controls loop>
+		<source src="blackRingtone.mp3">
+	</audio>
+	<p>
+		<canvas id="wave" height="200" width="300">
+			Sorry, canvas is not supported. Try on a HTML5 supported browser.
+		</canvas>
+	</p>
+</body>
+</html>
